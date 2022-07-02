@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Blog details
+{% endblock %}
+{% block data %}
+
+<div class="row">
+    <div class="container text-center">
+        <h1>{{blog.title}}</h1>
+    </div>
+    <div class="col-sm-6" style="padding-top:40px">
+        <img src="/media/{{blog.image}}" alt="{{blog.title}}" width="100%">
+    </div>
+    <div class="col-sm-6" style="padding-top:40px">
+        <h5>Author: <b>{{blog.author}}</b><br></h5>
+        <h6>Date: <u>{{blog.publish_date}}</u><br></h6>
+        <h6>Last modified: <u>{{blog.update_date}}</u></h6>
+        <i class="fa-regular fa-thumbs-up fa-xl" style="color:Blue"></i> {{blog.blog_like.count}}
+        <i class="fa-solid fa-comments fa-xl"></i> {{blog.blog_comment.count}}
+        {% if blog.author == user %}
+        <a href="{% url 'Blog_App:blog_update' slug=blog.slug %}" class="btn btn-warning btn-sm">Edit Blog </a>
+        <a href="{% url 'Blog_App:blog_delete' slug=blog.slug %}" class="btn btn-warning btn-sm">Delete Blog </a>
+        {% endif %}
+    </div>
+
+    
+    <div>
+        <p>{{ blog.content|linebreaks }}</p>
+    </div>
+<div>
+    {% if not like_check %}
+    <a href="{% url 'Blog_App:like' pk=blog.pk %}">
+        <i class="fa-regular fa-thumbs-up fa-2x "></i>
+    </a>
+    {% else %}
+    <a href="{% url 'Blog_App:unlike' pk=blog.pk %}">
+        <i class="fa-regular fa-thumbs-down fa-2x "></i>
+    </a>
+    {% endif %}
+</div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <h4>Comments:</h4>
+        <ul style="list-style: none;">
+            {% for comment in blog.blog_comment.all %}
+                <li><a href="{% url 'Login_App:public_user_info' user=comment.author.username %}"><b>{{comment.author}}</b></a></li>
+                <li>{{comment.comment}} <u>{{comment.comment_date}}</u></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-sm-6">
+        <form method="POST">
+            {{ form|crispy }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Delete blog
+{% endblock %}
+{% block data %}
+<h1> Are you sure to delete this blog?  </h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning btn-sm"> Delete</button>
+    <a href="{% url 'Blog_App:blog_detail' slug=blog.slug %}" class="btn btn-success btn-sm">Cancel </a>
+</form>
+{% endblock %}

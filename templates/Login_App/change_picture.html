@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+{% load crispy_forms_tags %}
+Change picture
+{% endblock %}
+{% block data %}
+<h1>change picture</h1>
+<form method="POST" enctype="multipart/form-data">
+    {{ form|crispy }}
+    {% csrf_token %}
+<button type="submit" class="btn btn-success btn-sm">change picture</button>
+</form>
+{% endblock %}

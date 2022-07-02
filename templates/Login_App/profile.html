@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}
+{% load static %}
+Profile
+
+{% endblock %}
+{% block data %}
+{% if error %}
+<div class="alert alert-warning">
+Invalid password
+</div>
+{% endif %}
+<h1><b>{{ user.username }}</b></h1>
+<div class="row">
+    <div class="col-sm-6" style="padding-top:40px">
+        {% if user.user_profile %}
+        <img src="/media/{{ user.user_profile.profile_picture}}" class="rounded-circle" width="150px">
+        <br><br>
+        <a href="{% url 'Login_App:picture_change' %}" class="btn btn-info btn-sm">Change picture</a>
+        {% else %}
+        <img src="/media/default_picture.jpg" width="150px">
+        <br><br>
+        <a href="{% url 'Login_App:picture_add' %}" class="btn btn-info btn-sm">Add picture</a>
+        {% endif %}
+        <br><br>
+        <p>Email:{{ user.email }}</p>
+        <p>Name:{{ user.first_name }} {{ user.last_name }}</p>
+        <a href="{% url 'Login_App:user_info_update' %}" class="btn btn-warning btn-sm">Update personal info </a>
+        <a href="{% url 'Login_App:user_password_change' %}" class="btn btn-warning btn-sm">Change password </a>
+        <a href="{% url 'Login_App:password_check' %}" class="btn btn-warning btn-sm">Delete account </a>
+
+    </div>
+
+        <div class="col-sm-6" style="padding-top:40px">
+
+
+        <br>
+        <h2>My blogs :</h2>
+            <hr>
+        {% for blog in user.post_author.all %}
+        <a href="{% url 'Blog_App:blog_detail' slug=blog.slug %}"><h4>{{blog.title}}</h4></a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

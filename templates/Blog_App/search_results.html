@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+{% load custom_filters %}
+Search results
+{% endblock %}
+{% block data %}
+<h1> Search results </h1>
+
+{% for blog in blogs %}
+<div class="container" style="padding-top:25px"><h2> {{blog.title}}</h2> </div>
+    <h6> {{blog.publish_date}}</h6>
+    <div class="row">
+        <div class="col-sm-4" style="padding-top:15px">
+            <img src="/media/{{blog.image}}" alt="{{blog.title}}" width="100%">
+    </div>
+    <div class="col-sm-8" style="padding-top:15px">
+        <p>
+            {{blog.content|range_filter|linebreaks}} <a href="{% url 'Blog_App:blog_detail' slug=blog.slug %}">read more </a>
+        </p>
+        <h6>Author: <a href="{% url 'Login_App:public_user_info' user=blog.author.username %}"><i>{{blog.author}}</i></a> </h6>
+    </div>
+</div>
+{% empty %}
+<h3>0 search results</h3>
+
+{% endfor %}
+
+
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}
+{% load crispy_forms_tags %}
+Delete account
+{% endblock %}
+{% block data %}
+<h1>Delete account {{object}}?</h1>
+<form method="POST">
+    {{ form|crispy }}
+    {% csrf_token %}
+<button type="submit" class="btn btn-warning btn-sm">Delete account</button>
+<a href="{% url 'Login_App:user_profile' %}" class="btn btn-success btn-sm">Cancel</a>
+</form>
+{% endblock %}
